@@ -121,17 +121,24 @@
         /* ============ HERO ============ */
         .hero {
             padding: var(--spacing-lg) 0 var(--spacing-xl);
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xxl);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            text-align: left;
         }
 
         .hero-image {
-            width: 100%;
-            max-width: 480px;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-            margin: 0 auto var(--spacing-lg);
+            width: auto;
+            height: 420px;
+            object-fit: contain;
             background: #f5f5f5;
-            display: block;
+            flex-shrink: 0;
         }
 
         .hero h1 {
@@ -155,10 +162,7 @@
         .hero-description {
             color: var(--color-text-secondary);
             line-height: 1.75;
-            max-width: 480px;
-            margin: 0 auto;
             font-size: 0.95rem;
-            padding: 0 var(--spacing-sm);
         }
 
         /* ============ SECTIONS ============ */
@@ -175,109 +179,163 @@
             letter-spacing: -0.01em;
         }
 
-        /* ============ EXPERIENCE ============ */
-        .experience-list {
+        /* ============ PROJECTS ============ */
+        .project-list {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-xl);
         }
 
-        .experience-item {
+        .project-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            padding: var(--spacing-xl) 0;
+            border-bottom: 1px solid var(--color-text);
         }
 
-        .experience-logos {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
+        .project-item:last-child {
+            border-bottom: none;
         }
 
-        .experience-image {
+        /* ============ CAROUSEL ============ */
+        .carousel {
+            position: relative;
             width: 100%;
-            max-width: 400px;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-            background: #f5f5f5;
+            max-width: 800px;
+            margin-bottom: var(--spacing-lg);
+            padding: 0 48px;
         }
 
-        .logo-row {
+        .carousel-viewport {
+            overflow: hidden;
             display: flex;
-            gap: 1rem;
+            justify-content: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 560px;
+            flex-shrink: 0;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .company-logo {
-            height: 24px;
+        .carousel-slide img,
+        .carousel-slide video {
+            max-width: 100%;
+            max-height: 100%;
             width: auto;
+            height: auto;
             object-fit: contain;
-            opacity: 0.7;
         }
 
-        .experience-content {
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: var(--color-bg);
+            border: 1px solid var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, color 0.2s ease;
+            z-index: 10;
+            padding: 0;
+        }
+
+        .carousel-btn:hover {
+            background: var(--color-text);
+            color: var(--color-bg);
+        }
+
+        .carousel-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .carousel-btn-prev {
+            left: 0;
+        }
+
+        .carousel-btn-next {
+            right: 0;
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.25;
+            cursor: default;
+        }
+
+        .carousel-btn:disabled:hover {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        /* ============ PROJECT CONTENT ============ */
+        .project-content {
             max-width: 400px;
             padding: 0 var(--spacing-sm);
+            text-align: left;
         }
 
-        .experience-content h3 {
+        .project-content h3 {
             font-family: var(--font-serif);
-            font-size: 1.2rem;
+            font-size: 1.35rem;
             font-weight: 400;
             margin-bottom: 0.25rem;
             line-height: 1.3;
         }
 
-        .experience-meta {
+        .project-meta {
             font-size: 0.85rem;
             color: var(--color-text-tertiary);
             margin-bottom: var(--spacing-sm);
         }
 
-        .experience-description {
+        .project-description {
             color: var(--color-text-secondary);
             line-height: 1.7;
-            margin-bottom: var(--spacing-sm);
             font-size: 0.9rem;
         }
 
-        .experience-highlight {
+        .project-highlight {
             font-family: var(--font-serif);
             font-size: 0.9rem;
             color: var(--color-text);
             font-style: italic;
+            margin-top: var(--spacing-sm);
         }
 
-        .experience-details {
+        .project-details {
             list-style: none;
-            padding-left: 0;
-            margin: var(--spacing-sm) 0;
+            padding: 0;
+            margin: var(--spacing-sm) 0 0;
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
-            text-align: left;
+            gap: 0.25rem;
         }
 
-        .experience-details li {
-            font-size: 0.82rem;
+        .project-details li {
+            font-size: 0.85rem;
             color: var(--color-text-secondary);
             line-height: 1.5;
-            padding-left: 0.9rem;
-            position: relative;
         }
 
-        .experience-details li::before {
-            content: "·";
-            position: absolute;
-            left: 0;
-            color: var(--color-text-tertiary);
-        }
-
-        .experience-details strong {
+        .project-details strong {
             color: var(--color-text);
             font-weight: 500;
         }
@@ -288,6 +346,7 @@
             gap: var(--spacing-sm);
             flex-wrap: wrap;
             align-items: center;
+            justify-content: center;
         }
 
         .contact-links a {
@@ -326,12 +385,35 @@
 
         /* ============ RESPONSIVE ============ */
         @media (max-width: 640px) {
-            .experience-image {
+            .carousel {
                 max-width: 100%;
+                padding: 0 40px;
+            }
+
+            .carousel-slide {
+                height: 280px;
+            }
+
+            .carousel-btn-prev {
+                left: 4px;
+            }
+
+            .carousel-btn-next {
+                right: 4px;
+            }
+
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-content {
+                text-align: center;
             }
 
             .hero-image {
-                max-width: 100%;
+                width: auto;
+                height: 240px;
             }
 
             nav {
@@ -376,94 +458,214 @@
 
     <main>
         <section class="hero" id="profile">
-            <!-- Replace with your griffin artwork -->
-            <img src="https://placehold.co/800x600/f0f0f0/999?text=Hero+Artwork" alt="Artwork by Nicholas George" class="hero-image">
-            
-            <h1>Nicholas George</h1>
-            <p class="hero-subtitle">Mechanical Product Design Engineer</p>
-            <p class="hero-description">
-                Simplicity meets sophistication in my approach to mechanical design. 
-                With a deep understanding of both form and function, I create products 
-                that endure beyond the latest trends, driven by a user-centric philosophy 
-                and carefully considered attention to detail.
-            </p>
+            <div class="hero-content">
+                <h1>Nicholas George</h1>
+                <p class="hero-subtitle">Product Designer</p>
+                <p class="hero-description">
+                    My design philosophy is rooted in sophisticated simplicity, function with form, and deliberately user-centric details.
+                </p>
+            </div>
+            <img src="images/header/subi_1_black.png" alt="Artwork by Nicholas George" class="hero-image">
         </section>
 
         <section id="work">
-            <h2 class="section-title">Professional Experience</h2>
-            
-            <div class="experience-list">
-                <article class="experience-item">
-                    <div class="experience-logos">
-                        <img src="https://placehold.co/400x300/f0f0f0/999?text=Bitkey+Product" alt="Bitkey wallet" class="experience-image">
-                        <div class="logo-row">
-                            <img src="https://placehold.co/80x28/f0f0f0/999?text=Bitkey" alt="Bitkey logo" class="company-logo">
-                            <img src="https://placehold.co/80x28/f0f0f0/999?text=Proto" alt="Proto logo" class="company-logo">
+            <h2 class="section-title">Projects</h2>
+
+            <div class="project-list">
+                <!-- Proto Rig -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><img src="images/block/rig/img_0.png" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_1.png" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_2.png" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_3.png" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_4.png" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_5.jpg" alt="Proto Rig"></div>
+                                <div class="carousel-slide"><img src="images/block/rig/img_6.png" alt="Proto Rig"></div>
+                            </div>
                         </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
                     </div>
-                    <div class="experience-content">
-                        <h3>Product Design Engineer at Block</h3>
-                        <p class="experience-meta">Miami, Florida · 2022 – Present</p>
-                        <p class="experience-description">
-                            Mechanical Product Design Lead for Block's Bitcoin hardware, 
-                            including the self-custodial Bitkey wallet and the industrial 
-                            Mining Rigs, focusing on usability and reliability for our customers.
+                    <div class="project-content">
+                        <h3>Proto Rig</h3>
+                        <p class="project-meta">Block · 2022 – Present</p>
+                        <p class="project-description">
+                            Industrial Bitcoin mining hardware designed for reliability and thermal efficiency.
+                            Led mechanical design from concept through mass production.
                         </p>
-                        <ul class="experience-details">
-                            <li><strong>Role:</strong> Lead Mechanical Product Designer</li>
-                            <li><strong>Materials:</strong> Aluminum, injection-molded plastics, custom elastomers</li>
-                            <li><strong>Contributions:</strong> End-to-end mechanical design, DFM optimization, vendor management</li>
-                            <li><strong>Owned:</strong> Enclosure design, thermal management, assembly fixtures</li>
-                            <li><strong>Duration:</strong> 2+ years</li>
+                        <ul class="project-details">
+                            <li><strong>Role:</strong> Lead Mechanical Designer</li>
+                            <li><strong>Materials:</strong> Sheet metal, extruded aluminum, custom heatsinks</li>
+                            <li><strong>Status:</strong> In Production</li>
                         </ul>
-                        <p class="experience-highlight">Time's Best Inventions of 2024</p>
                     </div>
                 </article>
 
-                <article class="experience-item">
-                    <div class="experience-logos">
-                        <img src="https://placehold.co/400x300/f0f0f0/999?text=iPhone+14" alt="iPhone 14" class="experience-image">
-                        <div class="logo-row">
-                            <img src="https://placehold.co/80x28/f0f0f0/999?text=Apple" alt="Apple logo" class="company-logo">
+                <!-- Bitkey -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><video src="images/block/bitkey/Bitkey_Exploded.mp4" autoplay muted loop playsinline></video></div>
+                                <div class="carousel-slide"><img src="images/block/bitkey/img_1.jpg" alt="Bitkey"></div>
+                                <div class="carousel-slide"><img src="images/block/bitkey/img_2.jpg" alt="Bitkey"></div>
+                                <div class="carousel-slide"><img src="images/block/bitkey/img_3.jpg" alt="Bitkey"></div>
+                                <div class="carousel-slide"><img src="images/block/bitkey/img_4.jpg" alt="Bitkey"></div>
+                                <div class="carousel-slide"><img src="images/block/bitkey/img_5.jpg" alt="Bitkey"></div>
+                            </div>
                         </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
                     </div>
-                    <div class="experience-content">
-                        <h3>Hardware Design Engineer at Apple</h3>
-                        <p class="experience-meta">Cupertino, California · 2 yrs</p>
-                        <p class="experience-description">
-                            Led the hardware product design for iPhone 14's Dynamic Island 
-                            Face ID module and system integration technology.
+                    <div class="project-content">
+                        <h3>Bitkey</h3>
+                        <p class="project-meta">Block · 2022 – Present</p>
+                        <p class="project-description">
+                            Self-custodial Bitcoin wallet combining hardware security with intuitive design.
+                            Focused on creating a seamless user experience for secure key management.
                         </p>
-                        <ul class="experience-details">
+                        <ul class="project-details">
+                            <li><strong>Role:</strong> Lead Mechanical Designer</li>
+                            <li><strong>Materials:</strong> Injection-molded plastics, custom elastomers, aluminum</li>
+                            <li><strong>Status:</strong> Shipped</li>
+                        </ul>
+                        <p class="project-highlight">Time's Best Inventions of 2024</p>
+                    </div>
+                </article>
+
+                <!-- iPhone 14 - Face ID Module -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><img src="images/apple/img_0.jpg" alt="iPhone 14 Face ID"></div>
+                                <div class="carousel-slide"><img src="images/apple/img_1.jpg" alt="iPhone 14 Face ID"></div>
+                                <div class="carousel-slide"><img src="images/apple/img_2.jpg" alt="iPhone 14 Face ID"></div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                    <div class="project-content">
+                        <h3>iPhone 14 – Face ID Module</h3>
+                        <p class="project-meta">Apple · 2020 – 2022</p>
+                        <p class="project-description">
+                            Led mechanical design for the Dynamic Island Face ID module,
+                            integrating advanced sensor technology into a compact form factor.
+                        </p>
+                        <ul class="project-details">
                             <li><strong>Role:</strong> Hardware Design Engineer</li>
-                            <li><strong>Materials:</strong> Precision machined aluminum, optical-grade plastics</li>
-                            <li><strong>Contributions:</strong> Face ID module integration, tolerance stack analysis</li>
-                            <li><strong>Owned:</strong> Dynamic Island mechanical architecture, sensor alignment</li>
-                            <li><strong>Duration:</strong> 2 years</li>
+                            <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
+                            <li><strong>Status:</strong> Shipped</li>
                         </ul>
                     </div>
                 </article>
 
-                <article class="experience-item">
-                    <div class="experience-logos">
-                        <img src="https://placehold.co/400x300/f0f0f0/999?text=Magic+Leap" alt="Magic Leap headset" class="experience-image">
-                        <div class="logo-row">
-                            <img src="https://placehold.co/100x28/f0f0f0/999?text=Magic+Leap" alt="Magic Leap logo" class="company-logo">
+                <!-- iPhone 13 - Face ID Module -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><img src="images/apple/img_3.jpg" alt="iPhone 13 Face ID"></div>
+                                <div class="carousel-slide"><img src="images/apple/img_4.jpg" alt="iPhone 13 Face ID"></div>
+                                <div class="carousel-slide"><img src="images/apple/img_5.jpg" alt="iPhone 13 Face ID"></div>
+                            </div>
                         </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
                     </div>
-                    <div class="experience-content">
-                        <h3>Mechanical Engineer at Magic Leap</h3>
-                        <p class="experience-meta">Miami/Fort Lauderdale Area · 4 yrs</p>
-                        <p class="experience-description">
-                            Engineered optical-mechanical assemblies for Magic Leap's spatial 
-                            computing headsets, focusing on miniaturization and precision alignment.
+                    <div class="project-content">
+                        <h3>iPhone 13 – Face ID Module</h3>
+                        <p class="project-meta">Apple · 2020 – 2022</p>
+                        <p class="project-description">
+                            Hardware design engineer for Face ID module integration,
+                            focusing on precision alignment and tolerance stack optimization.
                         </p>
-                        <ul class="experience-details">
+                        <ul class="project-details">
+                            <li><strong>Role:</strong> Hardware Design Engineer</li>
+                            <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
+                            <li><strong>Status:</strong> Shipped</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- Magic Leap 2 -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><img src="images/magic_leap/ml_2 2.jpg" alt="Magic Leap 2"></div>
+                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+2" alt="Magic Leap 2"></div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                    <div class="project-content">
+                        <h3>Magic Leap 2</h3>
+                        <p class="project-meta">Magic Leap · 2016 – 2020</p>
+                        <p class="project-description">
+                            Engineered optical-mechanical assemblies for Magic Leap's enterprise AR headset,
+                            focusing on miniaturization and precision alignment systems.
+                        </p>
+                        <ul class="project-details">
                             <li><strong>Role:</strong> Mechanical Engineer</li>
                             <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
-                            <li><strong>Contributions:</strong> Optical assembly design, miniaturization R&D</li>
-                            <li><strong>Owned:</strong> Waveguide mounting systems, precision alignment mechanisms</li>
-                            <li><strong>Duration:</strong> 4 years</li>
+                            <li><strong>Status:</strong> Shipped</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- Magic Leap 1 -->
+                <article class="project-item">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="carousel-viewport">
+                            <div class="carousel-track">
+                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
+                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn carousel-btn-next" data-next>
+                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                    <div class="project-content">
+                        <h3>Magic Leap 1</h3>
+                        <p class="project-meta">Magic Leap · 2016 – 2020</p>
+                        <p class="project-description">
+                            Developed waveguide mounting systems and precision alignment mechanisms
+                            for the first-generation spatial computing headset.
+                        </p>
+                        <ul class="project-details">
+                            <li><strong>Role:</strong> Mechanical Engineer</li>
+                            <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
+                            <li><strong>Status:</strong> Shipped</li>
                         </ul>
                     </div>
                 </article>
@@ -474,7 +676,7 @@
             <div class="contact-links">
                 <a href="mailto:hello@proofofnick.com">hello@proofofnick.com</a>
                 <span class="contact-divider">|</span>
-                <a href="https://linkedin.com/in/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/nickpgeorge/" target="_blank" rel="noopener">LinkedIn</a>
             </div>
         </section>
     </main>
@@ -503,6 +705,37 @@
             } else {
                 header.style.boxShadow = 'none';
             }
+        });
+
+        // Image carousel functionality
+        document.querySelectorAll('[data-carousel]').forEach(carousel => {
+            const track = carousel.querySelector('.carousel-track');
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const prevBtn = carousel.querySelector('[data-prev]');
+            const nextBtn = carousel.querySelector('[data-next]');
+            let currentIndex = 0;
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === slides.length - 1;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+
+            updateCarousel();
         });
     </script>
 </body>
