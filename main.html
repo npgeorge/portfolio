@@ -175,6 +175,7 @@
             font-family: var(--font-serif);
             font-size: 1.5rem;
             font-weight: 400;
+            margin-top: 120px;
             margin-bottom: var(--spacing-lg);
             letter-spacing: -0.01em;
         }
@@ -186,11 +187,6 @@
         }
 
         .project-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: var(--spacing-xl) 0;
             border-bottom: 1px solid var(--color-text);
         }
 
@@ -198,40 +194,100 @@
             border-bottom: none;
         }
 
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg) 60px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .project-header:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .project-header-text {
+            text-align: left;
+        }
+
+        .project-header-text h3 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            font-weight: 400;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+
+        .project-header-text .project-meta {
+            font-size: 0.85rem;
+            color: var(--color-text-tertiary);
+            margin: 0;
+        }
+
+        .project-toggle {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-toggle svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--color-text);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .project-item.expanded .project-toggle {
+            transform: rotate(180deg);
+        }
+
+        .project-body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 60px;
+            gap: var(--spacing-xxl);
+        }
+
+        .project-item.expanded .project-body {
+            max-height: 2000px;
+            padding-top: var(--spacing-lg);
+            padding-bottom: var(--spacing-xl);
+        }
+
         /* ============ CAROUSEL ============ */
         .carousel {
             position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: var(--spacing-lg);
-            padding: 0 48px;
+            flex: 1;
+            order: 2;
         }
 
         .carousel-viewport {
-            overflow: hidden;
             display: flex;
             justify-content: center;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.3s ease;
-            width: 100%;
+            height: 800px;
+            align-items: center;
         }
 
         .carousel-slide {
-            min-width: 100%;
-            height: 560px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
+            display: none;
             justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slide.active {
+            display: flex;
         }
 
         .carousel-slide img,
         .carousel-slide video {
+            max-height: 800px;
             max-width: 100%;
-            max-height: 100%;
             width: auto;
             height: auto;
             object-fit: contain;
@@ -268,11 +324,11 @@
         }
 
         .carousel-btn-prev {
-            left: 0;
+            left: 10px;
         }
 
         .carousel-btn-next {
-            right: 0;
+            right: 10px;
         }
 
         .carousel-btn:disabled {
@@ -287,23 +343,10 @@
 
         /* ============ PROJECT CONTENT ============ */
         .project-content {
-            max-width: 400px;
-            padding: 0 var(--spacing-sm);
+            flex: 0 0 320px;
+            order: 1;
             text-align: left;
-        }
-
-        .project-content h3 {
-            font-family: var(--font-serif);
-            font-size: 1.35rem;
-            font-weight: 400;
-            margin-bottom: 0.25rem;
-            line-height: 1.3;
-        }
-
-        .project-meta {
-            font-size: 0.85rem;
-            color: var(--color-text-tertiary);
-            margin-bottom: var(--spacing-sm);
+            padding-top: var(--spacing-lg);
         }
 
         .project-description {
@@ -474,199 +517,253 @@
             <div class="project-list">
                 <!-- Proto Rig -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><img src="images/block/rig/img_0.png" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_1.png" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_2.png" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_3.png" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_4.png" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_5.jpg" alt="Proto Rig"></div>
-                                <div class="carousel-slide"><img src="images/block/rig/img_6.png" alt="Proto Rig"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>Proto Rig</h3>
+                            <p class="project-meta">Block · 2022 – Present</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Proto Rig</h3>
-                        <p class="project-meta">Block · 2022 – Present</p>
-                        <p class="project-description">
-                            Industrial Bitcoin mining hardware designed for reliability and thermal efficiency.
-                            Led mechanical design from concept through mass production.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Lead Mechanical Designer</li>
-                            <li><strong>Materials:</strong> Sheet metal, extruded aluminum, custom heatsinks</li>
-                            <li><strong>Status:</strong> In Production</li>
-                        </ul>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><img src="images/block/rig/img_0.png" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_1.png" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_2.png" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_3.png" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_4.png" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_5.jpg" alt="Proto Rig"></div>
+                                    <div class="carousel-slide"><img src="images/block/rig/img_6.png" alt="Proto Rig"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Industrial Bitcoin mining hardware designed for reliability and thermal efficiency.
+                                Led mechanical design from concept through mass production.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Lead Mechanical Designer</li>
+                                <li><strong>Materials:</strong> Sheet metal, extruded aluminum, custom heatsinks</li>
+                                <li><strong>Status:</strong> In Production</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
                 <!-- Bitkey -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><video src="images/block/bitkey/Bitkey_Exploded.mp4" autoplay muted loop playsinline></video></div>
-                                <div class="carousel-slide"><img src="images/block/bitkey/img_1.jpg" alt="Bitkey"></div>
-                                <div class="carousel-slide"><img src="images/block/bitkey/img_2.jpg" alt="Bitkey"></div>
-                                <div class="carousel-slide"><img src="images/block/bitkey/img_3.jpg" alt="Bitkey"></div>
-                                <div class="carousel-slide"><img src="images/block/bitkey/img_4.jpg" alt="Bitkey"></div>
-                                <div class="carousel-slide"><img src="images/block/bitkey/img_5.jpg" alt="Bitkey"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>Bitkey</h3>
+                            <p class="project-meta">Block · 2022 – Present</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Bitkey</h3>
-                        <p class="project-meta">Block · 2022 – Present</p>
-                        <p class="project-description">
-                            Self-custodial Bitcoin wallet combining hardware security with intuitive design.
-                            Focused on creating a seamless user experience for secure key management.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Lead Mechanical Designer</li>
-                            <li><strong>Materials:</strong> Injection-molded plastics, custom elastomers, aluminum</li>
-                            <li><strong>Status:</strong> Shipped</li>
-                        </ul>
-                        <p class="project-highlight">Time's Best Inventions of 2024</p>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><video src="images/block/bitkey/Bitkey_Exploded.mp4" autoplay muted loop playsinline></video></div>
+                                    <div class="carousel-slide"><img src="images/block/bitkey/img_1.jpg" alt="Bitkey"></div>
+                                    <div class="carousel-slide"><img src="images/block/bitkey/img_2.jpg" alt="Bitkey"></div>
+                                    <div class="carousel-slide"><img src="images/block/bitkey/img_3.jpg" alt="Bitkey"></div>
+                                    <div class="carousel-slide"><img src="images/block/bitkey/img_4.jpg" alt="Bitkey"></div>
+                                    <div class="carousel-slide"><img src="images/block/bitkey/img_5.jpg" alt="Bitkey"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Self-custodial Bitcoin wallet combining hardware security with intuitive design.
+                                Focused on creating a seamless user experience for secure key management.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Lead Mechanical Designer</li>
+                                <li><strong>Materials:</strong> Injection-molded plastics, custom elastomers, aluminum</li>
+                                <li><strong>Status:</strong> Shipped</li>
+                            </ul>
+                            <p class="project-highlight">Time's Best Inventions of 2024</p>
+                        </div>
                     </div>
                 </article>
 
                 <!-- iPhone 14 - Face ID Module -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><img src="images/apple/img_0.jpg" alt="iPhone 14 Face ID"></div>
-                                <div class="carousel-slide"><img src="images/apple/img_1.jpg" alt="iPhone 14 Face ID"></div>
-                                <div class="carousel-slide"><img src="images/apple/img_2.jpg" alt="iPhone 14 Face ID"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>iPhone 14 – Face ID Module</h3>
+                            <p class="project-meta">Apple · 2020 – 2022</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>iPhone 14 – Face ID Module</h3>
-                        <p class="project-meta">Apple · 2020 – 2022</p>
-                        <p class="project-description">
-                            Led mechanical design for the Dynamic Island Face ID module,
-                            integrating advanced sensor technology into a compact form factor.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Hardware Design Engineer</li>
-                            <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
-                            <li><strong>Status:</strong> Shipped</li>
-                        </ul>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><img src="images/apple/img_0.jpg" alt="iPhone 14 Face ID"></div>
+                                    <div class="carousel-slide"><img src="images/apple/img_1.jpg" alt="iPhone 14 Face ID"></div>
+                                    <div class="carousel-slide"><img src="images/apple/img_2.jpg" alt="iPhone 14 Face ID"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Led mechanical design for the Dynamic Island Face ID module,
+                                integrating advanced sensor technology into a compact form factor.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Hardware Design Engineer</li>
+                                <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
+                                <li><strong>Status:</strong> Shipped</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
                 <!-- iPhone 13 - Face ID Module -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><img src="images/apple/img_3.jpg" alt="iPhone 13 Face ID"></div>
-                                <div class="carousel-slide"><img src="images/apple/img_4.jpg" alt="iPhone 13 Face ID"></div>
-                                <div class="carousel-slide"><img src="images/apple/img_5.jpg" alt="iPhone 13 Face ID"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>iPhone 13 – Face ID Module</h3>
+                            <p class="project-meta">Apple · 2020 – 2022</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>iPhone 13 – Face ID Module</h3>
-                        <p class="project-meta">Apple · 2020 – 2022</p>
-                        <p class="project-description">
-                            Hardware design engineer for Face ID module integration,
-                            focusing on precision alignment and tolerance stack optimization.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Hardware Design Engineer</li>
-                            <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
-                            <li><strong>Status:</strong> Shipped</li>
-                        </ul>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><img src="images/apple/img_3.jpg" alt="iPhone 13 Face ID"></div>
+                                    <div class="carousel-slide"><img src="images/apple/img_4.jpg" alt="iPhone 13 Face ID"></div>
+                                    <div class="carousel-slide"><img src="images/apple/img_5.jpg" alt="iPhone 13 Face ID"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Hardware design engineer for Face ID module integration,
+                                focusing on precision alignment and tolerance stack optimization.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Hardware Design Engineer</li>
+                                <li><strong>Materials:</strong> Precision aluminum, optical-grade plastics, stainless steel</li>
+                                <li><strong>Status:</strong> Shipped</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
                 <!-- Magic Leap 2 -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><img src="images/magic_leap/ml_2 2.jpg" alt="Magic Leap 2"></div>
-                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+2" alt="Magic Leap 2"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>Magic Leap 2</h3>
+                            <p class="project-meta">Magic Leap · 2016 – 2020</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Magic Leap 2</h3>
-                        <p class="project-meta">Magic Leap · 2016 – 2020</p>
-                        <p class="project-description">
-                            Engineered optical-mechanical assemblies for Magic Leap's enterprise AR headset,
-                            focusing on miniaturization and precision alignment systems.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Mechanical Engineer</li>
-                            <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
-                            <li><strong>Status:</strong> Shipped</li>
-                        </ul>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><img src="images/magic_leap/ml_2 2.jpg" alt="Magic Leap 2"></div>
+                                    <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+2" alt="Magic Leap 2"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Engineered optical-mechanical assemblies for Magic Leap's enterprise AR headset,
+                                focusing on miniaturization and precision alignment systems.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Mechanical Engineer</li>
+                                <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
+                                <li><strong>Status:</strong> Shipped</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
 
                 <!-- Magic Leap 1 -->
                 <article class="project-item">
-                    <div class="carousel" data-carousel>
-                        <button class="carousel-btn carousel-btn-prev" data-prev disabled>
-                            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                        </button>
-                        <div class="carousel-viewport">
-                            <div class="carousel-track">
-                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
-                                <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
-                            </div>
+                    <div class="project-header">
+                        <div class="project-header-text">
+                            <h3>Magic Leap 1</h3>
+                            <p class="project-meta">Magic Leap · 2016 – 2020</p>
                         </div>
-                        <button class="carousel-btn carousel-btn-next" data-next>
-                            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                        </button>
+                        <div class="project-toggle">
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
                     </div>
-                    <div class="project-content">
-                        <h3>Magic Leap 1</h3>
-                        <p class="project-meta">Magic Leap · 2016 – 2020</p>
-                        <p class="project-description">
-                            Developed waveguide mounting systems and precision alignment mechanisms
-                            for the first-generation spatial computing headset.
-                        </p>
-                        <ul class="project-details">
-                            <li><strong>Role:</strong> Mechanical Engineer</li>
-                            <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
-                            <li><strong>Status:</strong> Shipped</li>
-                        </ul>
+                    <div class="project-body">
+                        <div class="carousel" data-carousel>
+                            <button class="carousel-btn carousel-btn-prev" data-prev disabled>
+                                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <div class="carousel-viewport">
+                                <div class="carousel-track">
+                                    <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
+                                    <div class="carousel-slide"><img src="https://placehold.co/800x600/f0f0f0/999?text=Magic+Leap+1" alt="Magic Leap 1"></div>
+                                </div>
+                            </div>
+                            <button class="carousel-btn carousel-btn-next" data-next>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="project-content">
+                            <p class="project-description">
+                                Developed waveguide mounting systems and precision alignment mechanisms
+                                for the first-generation spatial computing headset.
+                            </p>
+                            <ul class="project-details">
+                                <li><strong>Role:</strong> Mechanical Engineer</li>
+                                <li><strong>Materials:</strong> Magnesium alloy, optical glass, precision polymers</li>
+                                <li><strong>Status:</strong> Shipped</li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -709,14 +806,15 @@
 
         // Image carousel functionality
         document.querySelectorAll('[data-carousel]').forEach(carousel => {
-            const track = carousel.querySelector('.carousel-track');
             const slides = carousel.querySelectorAll('.carousel-slide');
             const prevBtn = carousel.querySelector('[data-prev]');
             const nextBtn = carousel.querySelector('[data-next]');
             let currentIndex = 0;
 
             function updateCarousel() {
-                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === currentIndex);
+                });
                 prevBtn.disabled = currentIndex === 0;
                 nextBtn.disabled = currentIndex === slides.length - 1;
             }
@@ -736,6 +834,24 @@
             });
 
             updateCarousel();
+        });
+
+        // Accordion functionality
+        document.querySelectorAll('.project-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const projectItem = header.parentElement;
+                const wasExpanded = projectItem.classList.contains('expanded');
+
+                // Close all other projects (accordion behavior)
+                document.querySelectorAll('.project-item.expanded').forEach(item => {
+                    item.classList.remove('expanded');
+                });
+
+                // Toggle clicked project
+                if (!wasExpanded) {
+                    projectItem.classList.add('expanded');
+                }
+            });
         });
     </script>
 </body>
