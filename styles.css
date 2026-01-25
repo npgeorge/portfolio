@@ -652,12 +652,22 @@ footer {
         height: 240px;
     }
 
+    .logo-text {
+        display: none;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+
     nav {
-        gap: var(--spacing-md);
+        gap: var(--spacing-sm);
     }
 
     nav a {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.05em;
     }
 
     .carousel-viewport {
