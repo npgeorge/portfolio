@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <title>Contact | Nicholas George</title>
+    <meta name="description" content="Contact Nicholas George - Mechanical Product Design Engineer">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Contact Page Specific Styles */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .contact-header h1 {
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .contact-header .subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            letter-spacing: 0.1em;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border: 1px solid var(--color-border);
+            background: rgba(247, 147, 26, 0.02);
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+            clip-path: polygon(
+                var(--chamfer) 0,
+                calc(100% - var(--chamfer)) 0,
+                100% var(--chamfer),
+                100% calc(100% - var(--chamfer)),
+                calc(100% - var(--chamfer)) 100%,
+                var(--chamfer) 100%,
+                0 calc(100% - var(--chamfer)),
+                0 var(--chamfer)
+            );
+        }
+
+        .contact-method:hover {
+            border-color: var(--color-accent);
+            background: rgba(247, 147, 26, 0.05);
+        }
+
+        .contact-method-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            flex-shrink: 0;
+            clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+        }
+
+        .contact-method-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .contact-method-info {
+            flex: 1;
+        }
+
+        .contact-method-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-method-value {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--color-accent);
+        }
+
+        .contact-method-arrow {
+            width: 20px;
+            height: 20px;
+            stroke: var(--color-text-tertiary);
+            stroke-width: 1.5;
+            fill: none;
+            transition: transform 0.2s ease, stroke 0.2s ease;
+        }
+
+        .contact-method:hover .contact-method-arrow {
+            stroke: var(--color-accent);
+            transform: translateX(4px);
+        }
+
+        .contact-note {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--color-border);
+        }
+
+        .contact-note p {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            letter-spacing: 0.05em;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--spacing-lg);
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Circuit decoration */
+        .contact-circuit {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 50px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Drawing Border -->
+    <div class="drawing-border"></div>
+
+    <!-- Corner Registration Marks -->
+    <div class="corner-mark top-left">
+        <svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg>
+    </div>
+    <div class="corner-mark top-right">
+        <svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg>
+    </div>
+    <div class="corner-mark bottom-left">
+        <svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg>
+    </div>
+    <div class="corner-mark bottom-right">
+        <svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg>
+    </div>
+
+    <!-- NOT TO SCALE Label -->
+    <div class="not-to-scale">Not to Scale</div>
+
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Chamfered octagon -->
+                    <polygon points="14,4 34,4 44,14 44,34 34,44 14,44 4,34 4,14" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <!-- Crosshairs -->
+                    <line x1="24" y1="4" x2="24" y2="16" stroke="currentColor" stroke-width="1"/>
+                    <line x1="24" y1="32" x2="24" y2="44" stroke="currentColor" stroke-width="1"/>
+                    <line x1="4" y1="24" x2="16" y2="24" stroke="currentColor" stroke-width="1"/>
+                    <line x1="32" y1="24" x2="44" y2="24" stroke="currentColor" stroke-width="1"/>
+                    <!-- Center diamond -->
+                    <polygon points="24,18 30,24 24,30 18,24" fill="currentColor"/>
+                </svg>
+                <span class="logo-text">N.George</span>
+            </a>
+            <nav>
+                <a href="index.html#profile">PROFILE</a>
+                <a href="index.html#work">WORK</a>
+                <a href="resume.html">RESUME</a>
+                <a href="contact.html" class="active">CONTACT</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="contact-container">
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                Back to Portfolio
+            </a>
+
+            <div class="contact-header">
+                <h1>Get In Touch</h1>
+                <p class="subtitle">Let's build something together</p>
+            </div>
+
+            <div class="contact-methods">
+                <a href="mailto:hello@proofofnick.com" class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="contact-method-info">
+                        <div class="contact-method-label">Email</div>
+                        <div class="contact-method-value">hello@proofofnick.com</div>
+                    </div>
+                    <svg class="contact-method-arrow" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </a>
+
+                <a href="https://www.linkedin.com/in/nickpgeorge/" target="_blank" rel="noopener" class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                    </div>
+                    <div class="contact-method-info">
+                        <div class="contact-method-label">LinkedIn</div>
+                        <div class="contact-method-value">nickpgeorge</div>
+                    </div>
+                    <svg class="contact-method-arrow" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </a>
+
+                <a href="https://github.com/npgeorge" target="_blank" rel="noopener" class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                        </svg>
+                    </div>
+                    <div class="contact-method-info">
+                        <div class="contact-method-label">GitHub</div>
+                        <div class="contact-method-value">npgeorge</div>
+                    </div>
+                    <svg class="contact-method-arrow" viewBox="0 0 24 24">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="contact-note">
+                <p>Based in San Francisco, CA</p>
+            </div>
+        </div>
+
+        <!-- Circuit decoration -->
+        <svg class="circuit-trace contact-circuit" viewBox="0 0 300 50">
+            <path d="M0,25 L40,25 L40,10 L100,10 L100,25 L150,25 L150,40 L200,40 L200,25 L260,25 L260,10 L300,10"/>
+            <circle class="via-ring" cx="100" cy="10" r="3"/>
+            <circle class="via" cx="100" cy="10" r="1.5"/>
+            <circle class="via-ring" cx="150" cy="25" r="3"/>
+            <circle class="via" cx="150" cy="25" r="1.5"/>
+            <circle class="via-ring" cx="200" cy="40" r="3"/>
+            <circle class="via" cx="200" cy="40" r="1.5"/>
+        </svg>
+    </main>
+
+    <footer>
+        <!-- Title Block -->
+        <div class="title-block">
+            <div class="title-block-section">
+                <span class="title-block-label">Drawing</span>
+                <span class="title-block-value">NG-CONTACT-001</span>
+            </div>
+            <div class="title-block-section">
+                <span class="title-block-label">Rev</span>
+                <span class="title-block-value">01</span>
+            </div>
+            <div class="title-block-section">
+                <span class="title-block-label">Date</span>
+                <span class="title-block-value">2026.01.25</span>
+            </div>
+            <div class="title-block-section">
+                <span class="title-block-label">Drawn</span>
+                <span class="title-block-value">N.George</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header shadow on scroll
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.style.boxShadow = '0 1px 20px rgba(0,0,0,0.05)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
