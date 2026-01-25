@@ -220,7 +220,8 @@ section {
 .project-item::before {
     content: '';
     position: absolute;
-    left: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: -1px;
     width: 60px;
     height: 1px;
@@ -242,7 +243,6 @@ section {
     padding: var(--spacing-md) var(--spacing-md);
     max-width: 900px;
     margin: 0 auto;
-    margin-left: 10%;
     cursor: pointer;
     transition: background 0.2s ease;
 }
@@ -347,7 +347,7 @@ section {
 .project-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
@@ -370,13 +370,15 @@ section {
     position: relative;
     width: 100%;
     max-width: 900px;
-    margin-left: 15%;
+    margin: 0 auto;
+    padding: 0 60px;
 }
 
 .carousel-viewport {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 50vh;
 }
 
 .carousel-slide {
@@ -442,11 +444,11 @@ section {
 }
 
 .carousel-btn-prev {
-    left: 0;
+    left: 10px;
 }
 
 .carousel-btn-next {
-    right: 0;
+    right: 10px;
 }
 
 .carousel-btn:disabled {
@@ -464,8 +466,7 @@ section {
     max-width: 500px;
     width: 100%;
     text-align: left;
-    align-self: flex-start;
-    margin-left: 10%;
+    align-self: center;
     padding-left: var(--spacing-md);
     border-left: 1px solid var(--color-border);
     position: relative;
@@ -608,16 +609,12 @@ footer {
         padding: 0 var(--spacing-md);
     }
 
-    .project-header {
-        margin-left: 5%;
-    }
-
     .carousel {
-        margin-left: 5%;
+        padding: 0 50px;
     }
 
-    .project-content {
-        margin-left: 5%;
+    .carousel-viewport {
+        min-height: 45vh;
     }
 
     .carousel-slide img,
@@ -663,19 +660,22 @@ footer {
         font-size: 0.65rem;
     }
 
+    .carousel-viewport {
+        min-height: 35vh;
+    }
+
     .carousel-slide img,
     .carousel-slide video {
         max-height: 35vh;
     }
 
     .project-header {
-        margin-left: 0;
         padding-left: var(--spacing-md);
         padding-right: var(--spacing-md);
     }
 
     .carousel {
-        margin-left: 0;
+        padding: 0 40px;
     }
 
     .carousel::before,
@@ -684,6 +684,7 @@ footer {
     }
 
     .project-content {
+        align-self: flex-start;
         margin-left: var(--spacing-md);
     }
 
