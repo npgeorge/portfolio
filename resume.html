@@ -142,6 +142,27 @@
         }
 
         /* Download Section */
+        .resume-summary {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--color-border);
+            background: rgba(247, 147, 26, 0.03);
+            clip-path: polygon(
+                var(--chamfer) 0,
+                calc(100% - var(--chamfer)) 0,
+                100% var(--chamfer),
+                100% calc(100% - var(--chamfer)),
+                calc(100% - var(--chamfer)) 100%,
+                var(--chamfer) 100%,
+                0 calc(100% - var(--chamfer)),
+                0 var(--chamfer)
+            );
+        }
+
         .download-section {
             background: rgba(247, 147, 26, 0.05);
             border: 1px solid var(--color-border);
@@ -315,6 +336,11 @@
             <div class="resume-header">
                 <h1>Nicholas George</h1>
                 <p class="subtitle">Mechanical Product Design Engineer</p>
+            </div>
+
+            <!-- Summary Overview -->
+            <div class="resume-summary">
+                Led mechanical design on products shipped to millions at Apple, Block, and Magic Leap. At Apple, I was module lead for iPhone 13 &amp; 14 Face ID, driving precision optical-mechanical assemblies from concept through mass production. At Block, I led Bitkey &mdash; a self-custodial Bitcoin wallet recognized as one of TIME's Best Inventions of 2024 &mdash; and Proto Rig, an industrial mining platform designed for thermal efficiency at scale. At Magic Leap, I engineered optical assemblies for both generations of AR headsets, developing sub-arcminute precision alignment systems. I bring deep expertise in DFM, GD&amp;T, tolerance analysis, reliability engineering, and cross-functional leadership across ID, EE, and Product teams. I also hold a Data Science certification and placed 8th out of 150 in a Bitcoin Lightning hackathon.
             </div>
 
             <!-- Download Section -->
