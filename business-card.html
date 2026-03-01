@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card | Nicholas George</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-text: #1a1a2e;
+            --color-text-secondary: #4a4a5a;
+            --color-text-tertiary: #7a7a8a;
+            --color-bg: #f8f9fc;
+            --color-border: #d0d4e0;
+            --color-grid: #e4e8f0;
+            --color-accent: #f7931a;
+            --font-mono: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+
+            /* Standard business card: 3.5in x 2in */
+            --card-w: 3.5in;
+            --card-h: 2in;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: #e8e8e8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h2.label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #999;
+        }
+
+        /* ============ CARD BASE ============ */
+        .card {
+            width: var(--card-w);
+            height: var(--card-h);
+            background: var(--color-bg);
+            background-image:
+                linear-gradient(var(--color-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Drawing border inset */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 0.5px solid var(--color-border);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ============ CORNER MARKS ============ */
+        .corner-mark {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 3;
+        }
+
+        .corner-mark svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--color-accent);
+            stroke-width: 0.75;
+            fill: none;
+        }
+
+        .corner-mark.tl { top: 8px; left: 8px; }
+        .corner-mark.tr { top: 8px; right: 8px; }
+        .corner-mark.bl { bottom: 8px; left: 8px; }
+        .corner-mark.br { bottom: 8px; right: 8px; }
+
+        /* ============ FRONT SIDE ============ */
+        .card-front {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .front-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            z-index: 1;
+        }
+
+        .front-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .front-url {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--color-text);
+        }
+
+        /* Subtle accent line under URL */
+        .front-url-line {
+            width: 40px;
+            height: 1px;
+            background: var(--color-accent);
+        }
+
+        /* ============ BACK SIDE ============ */
+        .card-back {
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+        }
+
+        .back-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .back-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .back-name {
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text);
+        }
+
+        .back-title {
+            font-size: 0.5rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent);
+        }
+
+        .back-location {
+            font-size: 0.45rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-tertiary);
+            margin-top: 2px;
+        }
+
+        .back-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .back-contact-item {
+            font-size: 0.45rem;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-contact-item svg {
+            width: 8px;
+            height: 8px;
+            stroke: var(--color-accent);
+            stroke-width: 1.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        /* Linkedin icon needs fill */
+        .back-contact-item .icon-linkedin path {
+            stroke: var(--color-accent);
+        }
+
+        /* ============ CIRCUIT TRACE DECORATION ============ */
+        .circuit-deco {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .circuit-deco svg {
+            overflow: visible;
+        }
+
+        .circuit-deco path {
+            fill: none;
+            stroke: var(--color-border);
+            stroke-width: 0.75;
+        }
+
+        .circuit-deco .via {
+            fill: var(--color-accent);
+        }
+
+        .circuit-deco .via-ring {
+            fill: none;
+            stroke: var(--color-accent);
+            stroke-width: 0.5;
+        }
+
+        /* ============ TITLE BLOCK (back card) ============ */
+        .title-block-mini {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            display: flex;
+            border: 0.5px solid var(--color-border);
+            z-index: 3;
+            background: var(--color-bg);
+        }
+
+        .title-block-mini .tb-section {
+            padding: 2px 5px;
+            border-right: 0.5px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .title-block-mini .tb-section:last-child {
+            border-right: none;
+        }
+
+        .title-block-mini .tb-label {
+            font-size: 0.3rem;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .title-block-mini .tb-value {
+            font-size: 0.35rem;
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============ NOT TO SCALE ============ */
+        .nts {
+            position: absolute;
+            bottom: 12px;
+            left: 10px;
+            font-size: 0.3rem;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transform: rotate(-90deg);
+            transform-origin: left bottom;
+            opacity: 0.5;
+            z-index: 3;
+        }
+
+        /* ============ PRINT STYLES ============ */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                gap: 0.25in;
+            }
+
+            h2.label {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            /* Both cards on one page */
+            @page {
+                size: 4.5in 5in;
+                margin: 0.5in;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2 class="label">Front</h2>
+
+    <!-- ==================== FRONT ==================== -->
+    <div class="card card-front">
+        <!-- Corner registration marks -->
+        <div class="corner-mark tl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark tr"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark bl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark br"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+
+        <div class="front-content">
+            <!-- Chamfered octagon logo with crosshairs -->
+            <div class="front-logo">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="14,4 34,4 44,14 44,34 34,44 14,44 4,34 4,14" stroke="#1a1a2e" stroke-width="1.5" fill="none"/>
+                    <line x1="24" y1="4" x2="24" y2="16" stroke="#1a1a2e" stroke-width="1"/>
+                    <line x1="24" y1="32" x2="24" y2="44" stroke="#1a1a2e" stroke-width="1"/>
+                    <line x1="4" y1="24" x2="16" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                    <line x1="32" y1="24" x2="44" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                    <polygon points="24,18 30,24 24,30 18,24" fill="#f7931a"/>
+                </svg>
+            </div>
+            <span class="front-url">proofofnick.com</span>
+            <div class="front-url-line"></div>
+        </div>
+
+        <!-- Circuit trace decoration -->
+        <div class="circuit-deco">
+            <svg width="120" height="16" viewBox="0 0 120 16">
+                <path d="M0,8 L20,8 L20,3 L50,3 L50,8 L70,8 L70,13 L100,13 L100,8 L120,8"/>
+                <circle class="via-ring" cx="50" cy="3" r="2"/>
+                <circle class="via" cx="50" cy="3" r="1"/>
+                <circle class="via-ring" cx="70" cy="8" r="2"/>
+                <circle class="via" cx="70" cy="8" r="1"/>
+            </svg>
+        </div>
+    </div>
+
+    <h2 class="label">Back</h2>
+
+    <!-- ==================== BACK ==================== -->
+    <div class="card card-back">
+        <!-- Corner registration marks -->
+        <div class="corner-mark tl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark tr"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark bl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+        <div class="corner-mark br"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
+
+        <div class="back-content">
+            <div class="back-left">
+                <span class="back-name">Nicholas George</span>
+                <span class="back-title">Mechanical Product Design Engineer</span>
+                <span class="back-location">San Francisco, CA</span>
+            </div>
+
+            <div class="back-right">
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                    hello@proofofnick.com
+                </span>
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><path class="icon-linkedin" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    linkedin.com/in/nickpgeorge
+                </span>
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    github.com/npgeorge
+                </span>
+            </div>
+        </div>
+
+        <!-- "Not to Scale" label -->
+        <span class="nts">Not to Scale</span>
+
+        <!-- Mini title block -->
+        <div class="title-block-mini">
+            <div class="tb-section">
+                <span class="tb-label">Dwg</span>
+                <span class="tb-value">NG-BC-001</span>
+            </div>
+            <div class="tb-section">
+                <span class="tb-label">Rev</span>
+                <span class="tb-value">01</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
