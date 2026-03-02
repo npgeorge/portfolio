@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- QR Code Generator -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
     <style>
         * {
             margin: 0;
@@ -23,13 +26,14 @@
             --color-text-tertiary: #7a7a8a;
             --color-bg: #f8f9fc;
             --color-border: #d0d4e0;
-            --color-grid: #e4e8f0;
+            --color-grid: #f0f1f5;
             --color-accent: #f7931a;
             --font-mono: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
 
             /* Standard business card: 3.5in x 2in */
             --card-w: 3.5in;
             --card-h: 2in;
+            --chamfer: 8px;
         }
 
         body {
@@ -64,6 +68,17 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            /* Chamfered corners */
+            clip-path: polygon(
+                var(--chamfer) 0,
+                calc(100% - var(--chamfer)) 0,
+                100% var(--chamfer),
+                100% calc(100% - var(--chamfer)),
+                calc(100% - var(--chamfer)) 100%,
+                var(--chamfer) 100%,
+                0 calc(100% - var(--chamfer)),
+                0 var(--chamfer)
+            );
         }
 
         /* Drawing border inset */
@@ -77,75 +92,118 @@
             border: 0.5px solid var(--color-border);
             pointer-events: none;
             z-index: 2;
+            /* Match chamfer on inner border */
+            clip-path: polygon(
+                6px 0,
+                calc(100% - 6px) 0,
+                100% 6px,
+                100% calc(100% - 6px),
+                calc(100% - 6px) 100%,
+                6px 100%,
+                0 calc(100% - 6px),
+                0 6px
+            );
         }
 
-        /* ============ CORNER MARKS ============ */
-        .corner-mark {
+        /* Orange edge stripe */
+        .card::after {
+            content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
-            z-index: 3;
-        }
-
-        .corner-mark svg {
-            width: 100%;
+            top: 0;
+            left: 0;
+            width: 3px;
             height: 100%;
-            stroke: var(--color-accent);
-            stroke-width: 0.75;
-            fill: none;
+            background: var(--color-accent);
+            z-index: 4;
         }
 
-        .corner-mark.tl { top: 8px; left: 8px; }
-        .corner-mark.tr { top: 8px; right: 8px; }
-        .corner-mark.bl { bottom: 8px; left: 8px; }
-        .corner-mark.br { bottom: 8px; right: 8px; }
+        /* ============ CORNER MARKS (removed) ============ */
 
         /* ============ FRONT SIDE ============ */
         .card-front {
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0 32px;
         }
 
         .front-content {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 24px;
             z-index: 1;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .front-qr-side {
+            flex-shrink: 0;
+        }
+
+        #qrcode {
+            width: 96px;
+            height: 96px;
+        }
+
+        #qrcode svg {
+            width: 96px;
+            height: 96px;
+        }
+
+        .front-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
         }
 
         .front-logo svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
         }
 
         .front-url {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 500;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--color-text);
         }
 
-        /* Subtle accent line under URL */
-        .front-url-line {
-            width: 40px;
+        .front-url-accent {
+            width: 24px;
             height: 1px;
             background: var(--color-accent);
+        }
+
+        .front-scan-hint {
+            font-size: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
         }
 
         /* ============ BACK SIDE ============ */
         .card-back {
             display: flex;
-            align-items: center;
-            padding: 0 24px;
+            flex-direction: column;
+            padding: 24px 28px 18px;
         }
 
-        .back-content {
+        .back-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-text);
+            z-index: 1;
+            margin-bottom: 8px;
+        }
+
+        .back-details {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             width: 100%;
             z-index: 1;
         }
@@ -153,19 +211,11 @@
         .back-left {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-        }
-
-        .back-name {
-            font-size: 0.7rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--color-text);
+            gap: 2px;
         }
 
         .back-title {
-            font-size: 0.5rem;
+            font-size: 0.45rem;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.15em;
@@ -173,23 +223,22 @@
         }
 
         .back-location {
-            font-size: 0.45rem;
+            font-size: 0.42rem;
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--color-text-tertiary);
-            margin-top: 2px;
         }
 
         .back-right {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 5px;
+            gap: 4px;
         }
 
         .back-contact-item {
-            font-size: 0.45rem;
+            font-size: 0.42rem;
             letter-spacing: 0.05em;
             color: var(--color-text-secondary);
             display: flex;
@@ -206,9 +255,33 @@
             flex-shrink: 0;
         }
 
-        /* Linkedin icon needs fill */
         .back-contact-item .icon-linkedin path {
             stroke: var(--color-accent);
+        }
+
+        /* ============ COMPANY BAR ============ */
+        .company-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .company-bar .company-name {
+            font-size: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
+        }
+
+        .company-bar .diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--color-accent);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            flex-shrink: 0;
         }
 
         /* ============ CIRCUIT TRACE DECORATION ============ */
@@ -241,57 +314,7 @@
             stroke-width: 0.5;
         }
 
-        /* ============ TITLE BLOCK (back card) ============ */
-        .title-block-mini {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            display: flex;
-            border: 0.5px solid var(--color-border);
-            z-index: 3;
-            background: var(--color-bg);
-        }
-
-        .title-block-mini .tb-section {
-            padding: 2px 5px;
-            border-right: 0.5px solid var(--color-border);
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .title-block-mini .tb-section:last-child {
-            border-right: none;
-        }
-
-        .title-block-mini .tb-label {
-            font-size: 0.3rem;
-            color: var(--color-text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .title-block-mini .tb-value {
-            font-size: 0.35rem;
-            color: var(--color-text);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        /* ============ NOT TO SCALE ============ */
-        .nts {
-            position: absolute;
-            bottom: 12px;
-            left: 10px;
-            font-size: 0.3rem;
-            color: var(--color-text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transform: rotate(-90deg);
-            transform-origin: left bottom;
-            opacity: 0.5;
-            z-index: 3;
-        }
+        /* ============ (title block & NTS removed for cleaner back) ============ */
 
         /* ============ PRINT STYLES ============ */
         @media print {
@@ -324,26 +347,28 @@
 
     <!-- ==================== FRONT ==================== -->
     <div class="card card-front">
-        <!-- Corner registration marks -->
-        <div class="corner-mark tl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark tr"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark bl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark br"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-
         <div class="front-content">
-            <!-- Chamfered octagon logo with crosshairs -->
-            <div class="front-logo">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="14,4 34,4 44,14 44,34 34,44 14,44 4,34 4,14" stroke="#1a1a2e" stroke-width="1.5" fill="none"/>
-                    <line x1="24" y1="4" x2="24" y2="16" stroke="#1a1a2e" stroke-width="1"/>
-                    <line x1="24" y1="32" x2="24" y2="44" stroke="#1a1a2e" stroke-width="1"/>
-                    <line x1="4" y1="24" x2="16" y2="24" stroke="#1a1a2e" stroke-width="1"/>
-                    <line x1="32" y1="24" x2="44" y2="24" stroke="#1a1a2e" stroke-width="1"/>
-                    <polygon points="24,18 30,24 24,30 18,24" fill="#f7931a"/>
-                </svg>
+            <!-- QR Code (left) -->
+            <div class="front-qr-side">
+                <div id="qrcode"></div>
             </div>
-            <span class="front-url">proofofnick.com</span>
-            <div class="front-url-line"></div>
+
+            <!-- Logo + URL (right) -->
+            <div class="front-info">
+                <div class="front-logo">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="14,4 34,4 44,14 44,34 34,44 14,44 4,34 4,14" stroke="#1a1a2e" stroke-width="1.5" fill="none"/>
+                        <line x1="24" y1="4" x2="24" y2="16" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="24" y1="32" x2="24" y2="44" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="4" y1="24" x2="16" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="32" y1="24" x2="44" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                        <polygon points="24,18 30,24 24,30 18,24" fill="#f7931a"/>
+                    </svg>
+                </div>
+                <div class="front-url-accent"></div>
+                <span class="front-url">proofofnick.com</span>
+                <span class="front-scan-hint">Scan to view portfolio</span>
+            </div>
         </div>
 
         <!-- Circuit trace decoration -->
@@ -362,20 +387,23 @@
 
     <!-- ==================== BACK ==================== -->
     <div class="card card-back">
-        <!-- Corner registration marks -->
-        <div class="corner-mark tl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark tr"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark bl"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
-        <div class="corner-mark br"><svg viewBox="0 0 15 15"><line x1="0" y1="7.5" x2="15" y2="7.5"/><line x1="7.5" y1="0" x2="7.5" y2="15"/><circle cx="7.5" cy="7.5" r="4"/></svg></div>
 
-        <div class="back-content">
+        <!-- Name -->
+        <span class="back-name">Nicholas George</span>
+
+        <!-- Details row: subtitle left, contact right -->
+        <div class="back-details">
             <div class="back-left">
-                <span class="back-name">Nicholas George</span>
-                <span class="back-title">Mechanical Product Design Engineer</span>
-                <span class="back-location">San Francisco, CA</span>
+                <span class="back-title">Mechanical Product</span>
+                <span class="back-title">Design Engineer</span>
+                <span class="back-location">Miami, FL</span>
             </div>
 
             <div class="back-right">
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    207-570-0769
+                </span>
                 <span class="back-contact-item">
                     <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
                     hello@proofofnick.com
@@ -384,28 +412,47 @@
                     <svg viewBox="0 0 24 24"><path class="icon-linkedin" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                     linkedin.com/in/nickpgeorge
                 </span>
-                <span class="back-contact-item">
-                    <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                    github.com/npgeorge
-                </span>
             </div>
         </div>
 
-        <!-- "Not to Scale" label -->
-        <span class="nts">Not to Scale</span>
-
-        <!-- Mini title block -->
-        <div class="title-block-mini">
-            <div class="tb-section">
-                <span class="tb-label">Dwg</span>
-                <span class="tb-value">NG-BC-001</span>
-            </div>
-            <div class="tb-section">
-                <span class="tb-label">Rev</span>
-                <span class="tb-value">01</span>
-            </div>
+        <!-- Company bar at bottom -->
+        <div class="company-bar">
+            <span class="company-name">Block</span>
+            <span class="diamond"></span>
+            <span class="company-name">Apple</span>
+            <span class="diamond"></span>
+            <span class="company-name">Magic Leap</span>
         </div>
     </div>
+
+    <script>
+        // Generate QR code
+        var qr = qrcode(0, 'M');
+        qr.addData('https://proofofnick.com');
+        qr.make();
+
+        var moduleCount = qr.getModuleCount();
+        var cellSize = 3;
+        var margin = 1;
+        var size = moduleCount * cellSize + margin * 2;
+        var radius = cellSize * 0.42; // dot radius
+        var color = '#1a1a2e';
+
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '">';
+
+        for (var row = 0; row < moduleCount; row++) {
+            for (var col = 0; col < moduleCount; col++) {
+                if (qr.isDark(row, col)) {
+                    var cx = margin + col * cellSize + cellSize / 2;
+                    var cy = margin + row * cellSize + cellSize / 2;
+                    svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + radius + '" fill="' + color + '"/>';
+                }
+            }
+        }
+
+        svg += '</svg>';
+        document.getElementById('qrcode').innerHTML = svg;
+    </script>
 
 </body>
 </html>
