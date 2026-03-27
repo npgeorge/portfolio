@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card Back | Nicholas George</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-text: #1a1a2e;
+            --color-text-secondary: #4a4a5a;
+            --color-text-tertiary: #7a7a8a;
+            --color-bg: #f8f9fc;
+            --color-border: #d0d4e0;
+            --color-grid: #f0f1f5;
+            --color-accent: #f7931a;
+            --font-mono: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+
+            --card-w: 3.5in;
+            --card-h: 2in;
+            --chamfer: 8px;
+        }
+
+        @page {
+            size: 3.5in 2in;
+            margin: 0;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: white;
+            margin: 0;
+            padding: 0;
+            width: 3.5in;
+            height: 2in;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card {
+            width: var(--card-w);
+            height: var(--card-h);
+            background: var(--color-bg);
+            background-image:
+                linear-gradient(var(--color-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(
+                var(--chamfer) 0,
+                calc(100% - var(--chamfer)) 0,
+                100% var(--chamfer),
+                100% calc(100% - var(--chamfer)),
+                calc(100% - var(--chamfer)) 100%,
+                var(--chamfer) 100%,
+                0 calc(100% - var(--chamfer)),
+                0 var(--chamfer)
+            );
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 0.5px solid var(--color-border);
+            pointer-events: none;
+            z-index: 2;
+            clip-path: polygon(
+                6px 0,
+                calc(100% - 6px) 0,
+                100% 6px,
+                100% calc(100% - 6px),
+                calc(100% - 6px) 100%,
+                6px 100%,
+                0 calc(100% - 6px),
+                0 6px
+            );
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--color-accent);
+            z-index: 4;
+        }
+
+        .card-back {
+            display: flex;
+            flex-direction: column;
+            padding: 24px 28px 18px;
+        }
+
+        .back-name {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-text);
+            z-index: 1;
+            margin-bottom: 8px;
+        }
+
+        .back-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .back-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .back-title {
+            font-size: 0.45rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent);
+        }
+
+        .back-location {
+            font-size: 0.42rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-tertiary);
+        }
+
+        .back-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .back-contact-item {
+            font-size: 0.42rem;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-contact-item svg {
+            width: 8px;
+            height: 8px;
+            stroke: var(--color-accent);
+            stroke-width: 1.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        .back-contact-item .icon-linkedin path {
+            stroke: var(--color-accent);
+        }
+
+        .company-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .company-bar .company-name {
+            font-size: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
+        }
+
+        .company-bar .diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--color-accent);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card card-back">
+        <span class="back-name">Nicholas George</span>
+
+        <div class="back-details">
+            <div class="back-left">
+                <span class="back-title">Mechanical Product</span>
+                <span class="back-title">Design Engineer</span>
+                <span class="back-location">Miami, FL</span>
+            </div>
+
+            <div class="back-right">
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    207-570-0769
+                </span>
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+                    hello@proofofnick.com
+                </span>
+                <span class="back-contact-item">
+                    <svg viewBox="0 0 24 24"><path class="icon-linkedin" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    linkedin.com/in/nickpgeorge
+                </span>
+            </div>
+        </div>
+
+        <div class="company-bar">
+            <span class="company-name">Block</span>
+            <span class="diamond"></span>
+            <span class="company-name">Apple</span>
+            <span class="diamond"></span>
+            <span class="company-name">Magic Leap</span>
+        </div>
+    </div>
+
+</body>
+</html>

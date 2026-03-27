@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card Front | Nicholas George</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- QR Code Generator -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-text: #1a1a2e;
+            --color-text-secondary: #4a4a5a;
+            --color-text-tertiary: #7a7a8a;
+            --color-bg: #f8f9fc;
+            --color-border: #d0d4e0;
+            --color-grid: #f0f1f5;
+            --color-accent: #f7931a;
+            --font-mono: 'IBM Plex Mono', 'SF Mono', 'Consolas', monospace;
+
+            --card-w: 3.5in;
+            --card-h: 2in;
+            --chamfer: 8px;
+        }
+
+        @page {
+            size: 3.5in 2in;
+            margin: 0;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: white;
+            margin: 0;
+            padding: 0;
+            width: 3.5in;
+            height: 2in;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card {
+            width: var(--card-w);
+            height: var(--card-h);
+            background: var(--color-bg);
+            background-image:
+                linear-gradient(var(--color-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(
+                var(--chamfer) 0,
+                calc(100% - var(--chamfer)) 0,
+                100% var(--chamfer),
+                100% calc(100% - var(--chamfer)),
+                calc(100% - var(--chamfer)) 100%,
+                var(--chamfer) 100%,
+                0 calc(100% - var(--chamfer)),
+                0 var(--chamfer)
+            );
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 0.5px solid var(--color-border);
+            pointer-events: none;
+            z-index: 2;
+            clip-path: polygon(
+                6px 0,
+                calc(100% - 6px) 0,
+                100% 6px,
+                100% calc(100% - 6px),
+                calc(100% - 6px) 100%,
+                6px 100%,
+                0 calc(100% - 6px),
+                0 6px
+            );
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--color-accent);
+            z-index: 4;
+        }
+
+        .card-front {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 32px;
+        }
+
+        .front-content {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            z-index: 1;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .front-qr-side {
+            flex-shrink: 0;
+        }
+
+        #qrcode {
+            width: 96px;
+            height: 96px;
+        }
+
+        #qrcode svg {
+            width: 96px;
+            height: 96px;
+        }
+
+        .front-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .front-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .front-url {
+            font-size: 0.55rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text);
+        }
+
+        .front-url-accent {
+            width: 24px;
+            height: 1px;
+            background: var(--color-accent);
+        }
+
+        .front-scan-hint {
+            font-size: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
+        }
+
+        .circuit-deco {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.25;
+            z-index: 1;
+        }
+
+        .circuit-deco svg {
+            overflow: visible;
+        }
+
+        .circuit-deco path {
+            fill: none;
+            stroke: var(--color-border);
+            stroke-width: 0.75;
+        }
+
+        .circuit-deco .via {
+            fill: var(--color-accent);
+        }
+
+        .circuit-deco .via-ring {
+            fill: none;
+            stroke: var(--color-accent);
+            stroke-width: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card card-front">
+        <div class="front-content">
+            <div class="front-qr-side">
+                <div id="qrcode"></div>
+            </div>
+
+            <div class="front-info">
+                <div class="front-logo">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="14,4 34,4 44,14 44,34 34,44 14,44 4,34 4,14" stroke="#1a1a2e" stroke-width="1.5" fill="none"/>
+                        <line x1="24" y1="4" x2="24" y2="16" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="24" y1="32" x2="24" y2="44" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="4" y1="24" x2="16" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                        <line x1="32" y1="24" x2="44" y2="24" stroke="#1a1a2e" stroke-width="1"/>
+                        <polygon points="24,18 30,24 24,30 18,24" fill="#f7931a"/>
+                    </svg>
+                </div>
+                <div class="front-url-accent"></div>
+                <span class="front-url">proofofnick.com</span>
+                <span class="front-scan-hint">Scan to view portfolio</span>
+            </div>
+        </div>
+
+        <div class="circuit-deco">
+            <svg width="120" height="16" viewBox="0 0 120 16">
+                <path d="M0,8 L20,8 L20,3 L50,3 L50,8 L70,8 L70,13 L100,13 L100,8 L120,8"/>
+                <circle class="via-ring" cx="50" cy="3" r="2"/>
+                <circle class="via" cx="50" cy="3" r="1"/>
+                <circle class="via-ring" cx="70" cy="8" r="2"/>
+                <circle class="via" cx="70" cy="8" r="1"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        var qr = qrcode(0, 'M');
+        qr.addData('https://proofofnick.com');
+        qr.make();
+
+        var moduleCount = qr.getModuleCount();
+        var cellSize = 3;
+        var margin = 1;
+        var size = moduleCount * cellSize + margin * 2;
+        var radius = cellSize * 0.42;
+        var color = '#1a1a2e';
+
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '">';
+
+        for (var row = 0; row < moduleCount; row++) {
+            for (var col = 0; col < moduleCount; col++) {
+                if (qr.isDark(row, col)) {
+                    var cx = margin + col * cellSize + cellSize / 2;
+                    var cy = margin + row * cellSize + cellSize / 2;
+                    svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + radius + '" fill="' + color + '"/>';
+                }
+            }
+        }
+
+        svg += '</svg>';
+        document.getElementById('qrcode').innerHTML = svg;
+    </script>
+
+</body>
+</html>
